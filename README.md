@@ -4,12 +4,22 @@ ollama-LLM-agent
 
 ### Ollama
 - Ollama lets you use open models with your coding agents so you can spend less while keeping your data private.
+- Port 11434 is the default network port used by the Ollama API to run local large language models (http://localhost:11434)
 - __Commands__
 ```bash
-  ~ ollama list
+
+# ollama model check
+ollama list
 NAME                ID              SIZE      MODIFIED
 qwen2.5-coder:7b    dae161e27b0e    4.7 GB    12 minutes ago
 llama3:latest       365c0bd3c000    4.7 GB    3 months ago
+
+# You can test your local Ollama server on port 11434 by sending a basic GET request to http://localhost:11434 or a POST request to http://localhost:11434/api/generate
+curl -X POST http://localhost:11434/api/generate -d '{
+  "model": "llama3",
+  "prompt": "Why is the sky blue?",
+  "stream": false
+}'
 ```
 - open-webui serve --port 3000
 
