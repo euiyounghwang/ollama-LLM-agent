@@ -1,9 +1,22 @@
 # ollama-LLM-agent
 ollama-LLM-agent
 
-FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.8+ based on standard Python.
 
-UV is an extremely fast Python package and project manager, written in Rust. UV manages project dependencies and environments, with support for lockfiles, workspaces, and more.
+### Ollama
+- Ollama lets you use open models with your coding agents so you can spend less while keeping your data private.
+- __Commands__
+```bash
+  ~ ollama list
+NAME                ID              SIZE      MODIFIED
+qwen2.5-coder:7b    dae161e27b0e    4.7 GB    12 minutes ago
+llama3:latest       365c0bd3c000    4.7 GB    3 months ago
+```
+- open-webui serve --port 3000
+
+
+### FastAPI with Uv
+- FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.8+ based on standard Python.
+- UV is an extremely fast Python package and project manager, written in Rust. UV manages project dependencies and environments, with support for lockfiles, workspaces, and more.
 - A single tool to replace pip, pip-tools, pipx, poetry, pyenv, twine, virtualenv, and more
 - 10-100x faster than pip.
 - Installs and manages Python versions.
@@ -43,7 +56,7 @@ uv add open-webui
 ```
 - __Commands__
 ```bash
-oopen-webui serve --port 3000
+open-webui serve --port 3000
 
  - defaulting to ffmpeg, but may not work
   warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
