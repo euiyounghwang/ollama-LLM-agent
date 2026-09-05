@@ -23,6 +23,20 @@ curl -X POST http://localhost:11434/api/generate -d '{
 ```
 - open-webui serve --port 3000
 
+### MCP server
+- Python3.11 (python3.11 -m venv .mcp_agent)
+- pip install fastmcp mcpo
+- Run : source .mcp_agent/bin/activate
+- __Commands__
+```bash
+mcpo --port 8000 -- fastmcp run mcp_server.py:mcp
+uv run mcpo --port 8000 -- python mcp_server.py
+
+# Endpoint
+http://localhost:8000/docs
+```
+
+
 
 ### FastAPI with Uv
 - FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.8+ based on standard Python.
