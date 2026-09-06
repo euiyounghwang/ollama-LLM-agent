@@ -77,6 +77,10 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 
 uv add open-webui
+
+# uv sync
+# uv sync시 오류발생 -> rm -rf uv.lock, 
+uv sync --no-cache
 ```
 - __Commands__
 ```bash
