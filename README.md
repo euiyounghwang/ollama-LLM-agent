@@ -29,8 +29,11 @@ curl -X POST http://localhost:11434/api/generate -d '{
 - Run : source .mcp_agent/bin/activate
 - __Commands__
 ```bash
-mcpo --port 8000 -- fastmcp run mcp_server.py:mcp
+uv add fastmcp mcpo in .venv (source .venv/bin/activate)
+
+mcpo --host 0.0.0.0 --port 8000 -- fastmcp run mcp_server.py:mcp
 uv run mcpo --port 8000 -- python mcp_server.py
+
 
 # Endpoint
 http://localhost:8000/docs

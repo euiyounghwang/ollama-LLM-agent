@@ -5,5 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "fastmcp>=3.4.7",
+    "mcpo>=0.0.20",
     "open-webui>=0.11.3",
 ]

@@ -42,6 +42,7 @@ else
     source $VENV/Scripts/activate
 fi
 
+export PYTHONDONTWRITEBYTECODE=1
 
 # See how we were called.
 case "$1" in
