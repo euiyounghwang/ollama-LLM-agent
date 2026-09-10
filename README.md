@@ -1,5 +1,5 @@
 # ollama-LLM-agent
-ollama-LLM-agent
+<i>>ollama-LLM-agent
 
 
 ### Ollama
@@ -31,7 +31,7 @@ ollama run llama3.2
 export OLLAMA_HOST=0.0.0.0:11434
 export OLLAMA_MODELS=/apps/model/ollama/download_model
 
-./bin/ollama serve 
+./bin/ollama serve or ./ollama-linux-start.sh
 
 # -- Test
 curl http://localhost:11434
