@@ -20,36 +20,34 @@ WORKDIR /app
 # Add this line BEFORE your requirements installation
 # RUN pip install --no-cache-dir --upgrade pip setuptools wheel --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
 
-# Optimized caching: Install dependencies first
-# RUN --mount=type=cache,target=/root/.cache/uv \
-#     --mount=type=bind,source=uv.lock,target=uv.lock \
-#     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-#     # uv sync --frozen --no-install-project
-#     uv sync --no-install-project
-
-# Copy application code and perform final sync
-# COPY . /app
-# RUN --mount=type=cache,target=/root/.cache/uv \
-#     # uv sync --frozen
-#     uv sync --all-extras --dev
-
-# Set PATH to use the virtual environment
-# ENV PATH="/app/.venv/bin:$PATH"
-
 # Enable bytecode compilation and unbuffered output for Python
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Install project dependencies first (this layer caches aggressively)
-COPY pyproject.toml uv.lock ./
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-dev --no-install-project --locked
+# COPY pyproject.toml uv.lock ./
+# RUN --mount=type=cache,target=/root/.cache/uv \
+#     uv sync --no-dev --no-install-project --locked
 
 # Copy the rest of the source code and install the project itself
-COPY . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --all-extras --dev
+# COPY . /app
+# RUN --mount=type=cache,target=/root/.cache/uv \
+#     uv sync --all-extras --dev
 
+# 1. Copy only dependency files to optimize Docker layer caching
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
+
+# 2. Copy the rest of the application source code
+COPY . .
+
+# 3. Sync the project itself (creates the final executable environment)
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+    
+    
 
 FROM python:3.11.14-slim AS runtime
 # FROM --platform=linux/amd64 python:3.11-slim as runtime
