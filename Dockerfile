@@ -1,9 +1,12 @@
-# Use a slim Python image for smaller footprint
-FROM python:3.11.14-slim AS environment
+# Use a slim Python image for smaller footprint and keep the Debian base patched.
+FROM python:3.11.14-slim-bookworm AS environment
 # FROM --platform=linux/amd64 python:3.11-slim as environment
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y curl ca-certificates
+RUN apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy uv binary from the official Docker image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/

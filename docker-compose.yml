@@ -14,6 +14,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    networks:
+      - bridge
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
@@ -27,7 +29,10 @@ services:
       - open-webui_data:/app/backend/data
     depends_on:
       - ollama
-
+    networks:
+      - bridge
+      
+      
   fn-ollama-api:
     image: fn-ollama-api:es
     container_name: fn-ollama-api
@@ -48,3 +53,7 @@ services:
 volumes:
   ollama_data:
   open-webui_data:
+
+networks:
+  bridge:
+    driver: bridge
