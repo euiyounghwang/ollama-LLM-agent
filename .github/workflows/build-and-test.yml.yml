@@ -1,0 +1,98 @@
+
+name: Python-CICD-FastAPI-UV-Deps
+
+# on:
+#   workflow_call:
+#   push:
+#     branches-ignore:  [dev, master]
+
+on:
+  push:
+    # branches:
+    #   - dev
+    #   - feature/*
+    branches: [dev, master, feature/*, release/*]
+  pull_request:
+    branches: ['*']
+
+
+env:
+  elasticsearch_version: '8.17.0'
+  cluster.name: "docker-elasticsearch"
+  elasticsearch_port: 9201
+    
+jobs:
+  build-tests:
+    name: Build and tests
+    runs-on: ubuntu-latest
+    
+    # env:
+    #   elasticsearch_version: '8.17.0'
+    #   elasticsearch_port: 9201
+
+    # Elasticsearch Service container
+    # services:
+    #   elasticsearch:
+    #     # image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:${{ env.elasticsearch_version }}
+    #     env:
+    #       cluster.name: docker-elasticsearch
+    #       discovery.type: single-node
+    #       xpack.security.enabled: "false"
+    #     ports:
+    #       - 9201:9200
+    #     options: >-
+    #       --health-cmd "curl http://localhost:9200/_cluster/health"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      
+      # - name: Configure sysctl limits
+      #   run: |
+      #     sudo swapoff -a
+      #     sudo sysctl -w vm.swappiness=1
+      #     sudo sysctl -w fs.file-max=262144
+      #     sudo sysctl -w vm.max_map_count=262144
+
+      # - name: Start Elasticsearch with Plugins
+      #   uses: elastic/elastic-github-actions/elasticsearch@master
+      #   with:
+      #     stack-version: ${{ env.elasticsearch_version }}
+      #     security-enabled: false
+      #     # Recommended: Use specific port
+      #     port: ${{ env.elasticsearch_port }}
+      #     plugins: |
+      #       analysis-icu
+      #       analysis-kuromoji 
+
+      # - name: Verify Elasticsearch connection
+      #   run: curl -f http://localhost:${{ env.elasticsearch_port }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true # Speeds up subsequent runs
+          #python-version: "3.11" # Optional: specify a version
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install dependencies
+        run: uv sync --all-extras --dev # Ensures pytest is available
+
+      # - name: Linting
+      #   run: uvx ruff check
+
+      # - name: Formatting
+      #   run: uvx ruff format --check
+
+      - name: Run tests
+        env:
+          ELASTICSEARCH_HOST: http://localhost:${{ env.elasticsearch_port }}
+        run: uv run pytest
+
+
+ 
