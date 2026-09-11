@@ -44,7 +44,7 @@ services:
       - 17777:7777
     volumes:
       - ./:/app/FN-Ollama-Services
-    restart: unless-stopped
+    # restart: unless-stopped
     environment:
       - ES_HOST=http://host.docker.internal:9203
     networks:
