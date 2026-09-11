@@ -161,6 +161,15 @@ INFO:     Started server process [12990]
 ..
 ```
 
+### Create Virtural Env via uv
+- __Commands__
+  - uv export -o ./dev_uv_requirements.txt
+  - uv pip install -r ./dev_uv_requirements.txt
+  - uv sync # pyproject.toml 과 uv.lock 파일을 기준으로 가상환경 재생성 및 동기화
+  - uv sync --dev --active
+  - uv sync --all-extras --dev # Ensures pytest is available
+
+
 ### Pytest via uv
 - uv run pytest ./tests
 - uv run pytest ./tests/test_api.py
