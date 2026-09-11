@@ -1,5 +1,6 @@
 # Use a slim Python image for smaller footprint
-FROM python:3.12-slim
+# FROM python:3.12-slim
+FROM python:3.11-slim
 
 # Copy uv binary from the official Docker image
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
