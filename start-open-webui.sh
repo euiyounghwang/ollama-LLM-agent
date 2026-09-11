@@ -43,6 +43,9 @@ else
 fi
 
 export PYTHONDONTWRITEBYTECODE=1
+export OFFLINE_MODE=true
+export HF_HUB_OFFLINE=1
+export local_files_only=False
 
 # See how we were called.
 case "$1" in
