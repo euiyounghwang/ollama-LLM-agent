@@ -161,6 +161,16 @@ INFO:     Started server process [12990]
 ..
 ```
 
+### Dify
+- Dify is an open-source platform designed to help people build and run applications powered by large language models (LLMs).
+- __Commands__
+  - git clone https://github.com/langgenius/dify.git
+  - cd dify/docker
+  - cp .env.example .env
+  - docker compose up -d
+- __Run__ ; 주소창에 http://localhost/install (또는 포트 설정에 따라 http://localhost:3000/install)을 입력합니다, http://localhost/apps
+
+
 ### Create Virtural Env via uv
 - __Commands__
   - uv export -o ./dev_uv_requirements.txt
