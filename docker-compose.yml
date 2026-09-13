@@ -32,24 +32,6 @@ services:
     networks:
       - bridge
       
-      
-  fn-ollama-api:
-    image: fn-ollama-api:es
-    container_name: fn-ollama-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: runtime
-    ports:
-      - 17777:7777
-    volumes:
-      - ./:/app/FN-Ollama-Services
-    # restart: unless-stopped
-    environment:
-      - ES_HOST=http://host.docker.internal:9203
-    networks:
-      - bridge
-
 volumes:
   ollama_data:
   open-webui_data:
